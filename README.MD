@@ -26,6 +26,6 @@ How Flex receives the interaction by default and how the attributes show up as t
 
 ![how it looks in flex ootb](https://github.com/rbangueses/call-request-sample/blob/main/ootb-flex-custom-task.png?raw=true)
 
-A Flex environment presenting data and a call back button:
+A Flex environment presenting data and a call back button (this would require a custom flex plugin to present this number, not included in this repo):
 
 ![how it looks in custom flex](https://github.com/rbangueses/call-request-sample/blob/main/custom-flex-click%20to%20call.png?raw=true)
