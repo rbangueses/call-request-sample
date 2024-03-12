@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <title>Sample Contact Form</title>
+  </head>
+
+
+
+<body>
+
+    <!-- Modal start -->
+    <div id="thankYouModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%;">
+        <p>Thank you, we will be in touch as soon as we can!</p>
+        <button id="closeModal" class ="btn-grad w-100 text-uppercase">Understood</button>
+        <!-- <button id="closeModal" style="display: inline-block; width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">Understood</button> -->
+        </div>
+    </div>
+      <!-- Modal end -->
+
+  <!-------Contact Start------->
+  <section class="contact section-padding" data-scroll-index='6'>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="sectioner-header text-center">
+            <h3>Contact us</h3>
+            <span class="line"></span>
+            <p>This is a sample contact us form.</p>
+          </div>
+          <div class="section-content">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-8">
+                <form id="contact_form" action="">
+                  <div class="row">
+                    <div class="col">
+                      <input type="text" id="your_name" class="form-input w-100" name="full-name" placeholder="Full Name" required>
+                    </div>
+                    <div class="col">
+                      <!-- <input type="email" id="email" class="form-input w-100" name="email" placeholder="Email" required> -->
+                      <input type="text" id="phone_number" class="form-input w-100" name="phone-number" placeholder="Phone Number" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <!-- <input type="select" id="reason" class="form-input w-100" name="reason" placeholder="Reason" required> -->
+                      <select id="reason" class="form-input w-100" name="reason" 
+                        style="padding: 0 1rem;
+                              background: #fff;
+                              height: 2.5rem;
+                              border-radius: 30px;
+                              margin-bottom: 1rem;
+                              margin-top: 0.5rem;">
+                        <option value="home insurance">Home insurance</option>
+                        <option value="car insurance">Car insurance</option>
+                        <option value="renewals">Renewals</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div class="col">
+                      <select id="contactTime" class="form-input w-100" name="contactTime" 
+                      style="padding: 0 1rem;
+                            background: #fff;
+                            height: 2.5rem;
+                            border-radius: 30px;
+                            margin-bottom: 1rem;
+                            margin-top: 0.5rem;">
+                      <option value="now">Now</option>
+                      <option value="nextHour">In the next hour</option>
+                      <option value="specificTime">Pick a specific time</option>
+                    </select>
+                    </div>
+                  </div>
+                  <!-- <input type="text" id="phone_number" class="form-input w-100" name="phone-number" placeholder="Phone Number"> -->
+                  <textarea class="form-input w-100" id="message" placeholder="Message" name="message"></textarea>
+                  <button class="btn-grad w-100 text-uppercase" type="submit" name="button">submit</button>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-------Contact End-------> 
+
+  <!-- ajax request to create a new task in Twilio -->
+  <!-- script to open / close modal after form submission -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('#contact_form').on('submit', function(e) {
+      e.preventDefault();
+
+      var name = $('#your_name').val();
+      var phoneNumber = $('#phone_number').val();
+      var formOption = $('#reason').val();
+      var formDetails = $('#message').val();
+      var timeToContact = $('#contactTime').val();
+
+      //SET THE URL HERE
+      var url = 'https://xxxx.twil.io/create-task';
+      url += '?name=' + encodeURIComponent(name);
+      url += '&crmid=' + '101';
+      url += '&from=' + encodeURIComponent(phoneNumber);
+      url += '&channel=webform';
+      url += '&formOption=' + encodeURIComponent(formOption);
+      url += '&formDetails=' + encodeURIComponent(formDetails);
+      url += '&timeToContact=' + encodeURIComponent(timeToContact);
+
+      $.ajax({
+        type: 'GET',
+        url: url,
+        success: function(data) {
+          console.log('Task created successfully', data);
+          $('#thankYouModal').show();
+        },
+        error: function(error) {
+          console.log('Error creating task', error);
+        }
+      });
+    });
+
+    $('#closeModal').click(function() {
+      $('#thankYouModal').hide();
+    });
+  });
+  </script>
+
+  <!-- end  -->
+
+  </body>
+</html>
